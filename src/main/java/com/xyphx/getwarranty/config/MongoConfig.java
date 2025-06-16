@@ -10,7 +10,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 @Configuration
 public class MongoConfig {
-
         @Bean
         public MongoClient mongoClient() {
                 Dotenv dotenv = Dotenv.configure().load();
@@ -18,13 +17,9 @@ public class MongoConfig {
 
                 try {
                         MongoClient client = MongoClients.create(uri);
-
-                        // ✅ Ping test
                         client.getDatabase("admin").runCommand(new Document("ping", 1));
-
                         System.out.println("✅ MongoDB connection SUCCESS ✅");
                         return client;
-
                 } catch (Exception e) {
                         System.out.println("❌ MongoDB connection FAILED ❌" + e);
                         throw e;

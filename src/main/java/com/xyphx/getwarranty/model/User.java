@@ -7,16 +7,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User {
     @Id
     private String id;
-    private String fullName;
+    private String name;
     private String email;
     private String password;
 
-    // Constructors
     public User() {
     }
 
-    public User(String fullName, String email, String password) {
-        this.fullName = fullName;
+    public User(String name, String email, String password) {
+        this.name = name;
         this.email = email;
         this.password = password;
     }
@@ -26,12 +25,12 @@ public class User {
         return id;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getName() {
+        return name;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
