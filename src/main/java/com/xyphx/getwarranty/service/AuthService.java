@@ -1,8 +1,10 @@
 package com.xyphx.getwarranty.service;
 
+import com.xyphx.getwarranty.dto.LoginRequest;
 import com.xyphx.getwarranty.dto.SignupRequest;
 import com.xyphx.getwarranty.model.User;
 import com.xyphx.getwarranty.repository.UserRepository;
+import com.xyphx.getwarranty.security.JwtUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,6 +15,8 @@ public class AuthService {
 
         @Autowired
         private UserRepository userRepository;
+
+        private JwtUtil jwtUtil; 
 
         private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -32,4 +36,17 @@ public class AuthService {
                 userRepository.save(user);
                 return "User registered successfully";
         }
+
+        public String login(LoginRequest request) {
+                User user = userRepository.findByEmail(request
+                                .getEmail())
+                                .orElseThrow(() -> new RuntimeException("Invalid credentials"));
+
+                if (!encoder.matches(request.getPassword(), user.getPassword())) {
+                        throw new RuntimeException("Invalid credentials");
+                }
+
+                return jwtUtil.generateToken(user.getEmail());
+        }
+            
 }

@@ -1,5 +1,6 @@
 package com.xyphx.getwarranty.controller;
 
+import com.xyphx.getwarranty.dto.LoginRequest;
 import com.xyphx.getwarranty.dto.SignupRequest;
 import com.xyphx.getwarranty.service.AuthService;
 
@@ -35,4 +36,15 @@ public class AuthController {
         }
         return ResponseEntity.ok(result);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
+        try {
+            String token = authService.login(request);
+            return ResponseEntity.ok().body("JWT Token: " + token);
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body("Invalid credentials");
+        }
+    }
+
 }
