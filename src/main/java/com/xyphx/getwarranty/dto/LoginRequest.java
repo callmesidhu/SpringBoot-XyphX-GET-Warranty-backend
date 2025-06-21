@@ -1,31 +1,18 @@
 package com.xyphx.getwarranty.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-
-
 public class LoginRequest {
-    @Email
-    @NotBlank
-    private String email;
+        private String email;
+        private String password;
 
-    @NotBlank
-    private String password;
+        public String getEmail() {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'getEmail'");
+        }
 
-    // Getters and setters
-    public String getEmail() {
-        return email;
-    }
+        public CharSequence getPassword() {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'getPassword'");
+        }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+        // Getters & Setters
 }

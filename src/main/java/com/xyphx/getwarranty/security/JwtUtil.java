@@ -1,54 +1,59 @@
 package com.xyphx.getwarranty.security;
 
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.security.Key;
-import java.util.Base64;
 import java.util.Date;
 
 @Component
 public class JwtUtil {
+        private final String ACCESS_SECRET = "access_secret"; // store in .env
+        private final String REFRESH_SECRET = "refresh_secret";
 
-    @Value("${jwt.secret}")
-    private String secret;
+        private final long ACCESS_EXPIRATION = 1000 * 60 * 15; // 15 mins
+        private final long REFRESH_EXPIRATION = 1000L * 60 * 60 * 24 * 365; // 1 year
 
-    private final long EXPIRATION_TIME = 86400000; // 1 day in milliseconds
-
-    private Key getSigningKey() {
-        byte[] keyBytes = Base64.getDecoder().decode(secret);
-        return Keys.hmacShaKeyFor(keyBytes);
-    }
-
-    public String generateToken(String email) {
-        return Jwts.builder()
-                .setSubject(email)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
-                .compact();
-    }
-
-    public String extractUsername(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
-    }
-
-    public boolean validateToken(String token) {
-        try {
-            Jwts.parserBuilder()
-                    .setSigningKey(getSigningKey())
-                    .build()
-                    .parseClaimsJws(token);
-            return true;
-        } catch (JwtException | IllegalArgumentException e) {
-            return false;
+        public String generateAccessToken(String email) {
+                return Jwts.builder()
+                                .setSubject(email)
+                                .setIssuedAt(new Date())
+                                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_EXPIRATION))
+                                .signWith(SignatureAlgorithm.HS512, ACCESS_SECRET)
+                                .compact();
         }
-    }
+
+        public String generateRefreshToken(String email) {
+                return Jwts.builder()
+                                .setSubject(email)
+                                .setIssuedAt(new Date())
+                                .setExpiration(new Date(System.currentTimeMillis() + REFRESH_EXPIRATION))
+                                .signWith(SignatureAlgorithm.HS512, REFRESH_SECRET)
+                                .compact();
+        }
+
+        public String extractEmailFromAccessToken(String token) {
+                return Jwts.parser().setSigningKey(ACCESS_SECRET).parseClaimsJws(token).getBody().getSubject();
+        }
+
+        public String extractEmailFromRefreshToken(String token) {
+                return Jwts.parser().setSigningKey(REFRESH_SECRET).parseClaimsJws(token).getBody().getSubject();
+        }
+
+        public boolean validateAccessToken(String token) {
+                try {
+                        Jwts.parser().setSigningKey(ACCESS_SECRET).parseClaimsJws(token);
+                        return true;
+                } catch (JwtException e) {
+                        return false;
+                }
+        }
+
+        public boolean validateRefreshToken(String token) {
+                try {
+                        Jwts.parser().setSigningKey(REFRESH_SECRET).parseClaimsJws(token);
+                        return true;
+                } catch (JwtException e) {
+                        return false;
+                }
+        }
 }
