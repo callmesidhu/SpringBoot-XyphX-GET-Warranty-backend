@@ -1,40 +1,40 @@
 package com.xyphx.getwarranty.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-
 public class SignupRequest {
-        @NotBlank
         private String name;
-
-        @NotBlank
-        @Email
         private String email;
-
-        @NotBlank
-        @Size(min = 6)
         private String password;
 
-        // Getters and Setters
-        public String getName() {
-                return name;
+        // ✅ Constructors
+        public SignupRequest() {
         }
 
-        public void setName(String name) {
+        public SignupRequest(String name, String email, String password) {
                 this.name = name;
+                this.email = email;
+                this.password = password;
+        }
+
+        // ✅ Getters
+        public String getName() {
+                return name;
         }
 
         public String getEmail() {
                 return email;
         }
 
-        public void setEmail(String email) {
-                this.email = email;
-        }
-
         public String getPassword() {
                 return password;
+        }
+
+        // ✅ Setters (optional but useful if you're binding JSON)
+        public void setName(String name) {
+                this.name = name;
+        }
+
+        public void setEmail(String email) {
+                this.email = email;
         }
 
         public void setPassword(String password) {

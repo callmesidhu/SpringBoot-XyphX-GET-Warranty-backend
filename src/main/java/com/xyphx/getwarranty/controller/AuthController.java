@@ -1,50 +1,29 @@
 package com.xyphx.getwarranty.controller;
 
-import com.xyphx.getwarranty.dto.LoginRequest;
-import com.xyphx.getwarranty.dto.SignupRequest;
+import com.xyphx.getwarranty.dto.*;
 import com.xyphx.getwarranty.service.AuthService;
-
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/") // Base URL will be: /api/v1/signup
-@Tag(name = "Authentication Controller", description = "Handles user registration and login")
-@CrossOrigin(origins = "*")
+@RequestMapping("/api/auth")
 public class AuthController {
 
     @Autowired
     private AuthService authService;
 
-    @Operation(summary = "Register a new user")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User registered successfully"),
-            @ApiResponse(responseCode = "400", description = "User already exists")
-    })
     @PostMapping("/signup")
-    public ResponseEntity<String> signup(@Valid @RequestBody SignupRequest request) {
-        String result = authService.signup(request);
-        if (result.equals("User already exists")) {
-            return ResponseEntity.badRequest().body(result);
-        }
-        return ResponseEntity.ok(result);
+    public AuthResponse signup(@RequestBody SignupRequest request) {
+        return authService.signup(request);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
-        try {
-            String token = authService.login(request);
-            return ResponseEntity.ok().body("JWT Token: " + token);
-        } catch (Exception e) {
-            return ResponseEntity.status(401).body("Invalid credentials");
-        }
+    public AuthResponse login(@RequestBody LoginRequest request) {
+        return authService.login(request);
     }
 
+    @PostMapping("/refresh")
+    public AuthResponse refresh(@RequestBody RefreshTokenRequest request) {
+        return authService.refreshAccessToken(request.getRefreshToken());
+    }
 }
