@@ -9,5 +9,12 @@ public class AuthResponse {
                 this.refreshToken = refreshToken;
         }
 
-        // Getters
+        // ← Add these
+        public String getAccessToken() {
+                return accessToken;
+        }
+
+        public String getRefreshToken() {
+                return refreshToken;
+        }
 }

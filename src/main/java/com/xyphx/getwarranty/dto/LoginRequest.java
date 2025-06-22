@@ -4,15 +4,31 @@ public class LoginRequest {
         private String email;
         private String password;
 
+        // No-arg constructor for Jackson
+        public LoginRequest() {
+        }
+
+        // All-args constructor (optional)
+        public LoginRequest(String email, String password) {
+                this.email = email;
+                this.password = password;
+        }
+
+        // Real getter implementations
         public String getEmail() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'getEmail'");
+                return email;
         }
 
-        public CharSequence getPassword() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'getPassword'");
+        public String getPassword() {
+                return password;
         }
 
-        // Getters & Setters
+        // Setters so Jackson can bind incoming JSON
+        public void setEmail(String email) {
+                this.email = email;
+        }
+
+        public void setPassword(String password) {
+                this.password = password;
+        }
 }
