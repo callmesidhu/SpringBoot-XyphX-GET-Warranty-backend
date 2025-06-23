@@ -3,7 +3,10 @@ package com.xyphx.getwarranty.model;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Document(collection = "users")
 public class User {
@@ -15,11 +18,14 @@ public class User {
     private String email;
     private String password;
 
-    @CreatedDate
-    private LocalDateTime createdAt;
+    private List<Service> services = new ArrayList<>();
 
+    @CreatedDate
+    private LocalDateTime createdAt = LocalDateTime.now();
+    
     private Profile profile;
 
+    // Constructors
     public User() {
     }
 
@@ -29,6 +35,7 @@ public class User {
         this.password = password;
     }
 
+    // Getters
     public String getId() {
         return id;
     }
@@ -45,12 +52,37 @@ public class User {
         return password;
     }
 
+    public List<Service> getServices() {
+        return services;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
     public Profile getProfile() {
         return profile;
+    }
+
+    // Setters
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setServices(List<Service> services) {
+        this.services = services;
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
