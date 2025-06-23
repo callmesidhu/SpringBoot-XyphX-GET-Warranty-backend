@@ -18,6 +18,8 @@ public class User {
     @CreatedDate
     private LocalDateTime createdAt;
 
+    private Profile profile;
+
     public User() {
     }
 
@@ -47,7 +49,15 @@ public class User {
         return createdAt;
     }
 
+    public Profile getProfile() {
+        return profile;
+    }
+
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 }
