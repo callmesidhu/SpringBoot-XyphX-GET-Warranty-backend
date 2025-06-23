@@ -21,7 +21,7 @@ public class JwtUtil {
         private final SecretKey ACCESS_KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode(ACCESS_SECRET));
         private final SecretKey REFRESH_KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode(REFRESH_SECRET));
 
-        private final long ACCESS_EXPIRATION = 1000 * 60 * 15; // 15 mins
+        private final long ACCESS_EXPIRATION = 1000 * 60 * 15 * 24 * 365;
         private final long REFRESH_EXPIRATION = 1000L * 60 * 60 * 24 * 365; // 1 year
 
         public String generateAccessToken(String email) {
