@@ -16,7 +16,6 @@ public class UserController {
         @Autowired
         private UserRepository userRepository;
 
-        // GET /api/user/details
         @GetMapping("/details")
         public ResponseEntity<?> getUserDetails(Authentication authentication) {
                 String userEmail = authentication.getName();
