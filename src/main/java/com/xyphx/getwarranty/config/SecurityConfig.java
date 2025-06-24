@@ -32,6 +32,7 @@ public class SecurityConfig {
                                                                 "/v3/api-docs/**",
                                                                 "/api/v1/api-docs/**",
                                                                 "/webjars/**",
+                                                                "/",
                                                                 "/api/auth/**")
                                                 .permitAll()
                                                 .requestMatchers("/api/profile/**").authenticated()
