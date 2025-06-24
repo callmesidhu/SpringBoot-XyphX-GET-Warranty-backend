@@ -1,6 +1,5 @@
 package com.xyphx.getwarranty.security;
 
-import com.xyphx.getwarranty.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -8,7 +7,7 @@ import org.springframework.security.core.userdetails.*;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
+import com.xyphx.getwarranty.security.JwtUtil;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 
@@ -22,6 +21,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         @Autowired
         private UserDetailsService userDetailsService;
+
+        @Override
+        protected boolean shouldNotFilter(HttpServletRequest request) {
+                String path = request.getRequestURI();
+                return path.startsWith("/api/auth/**");
+        }
 
         @Override
         protected void doFilterInternal(HttpServletRequest request,

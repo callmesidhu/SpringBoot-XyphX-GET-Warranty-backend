@@ -28,7 +28,6 @@ public class SignupRequest {
                 return password;
         }
 
-        // ✅ Setters (optional but useful if you're binding JSON)
         public void setName(String name) {
                 this.name = name;
         }
