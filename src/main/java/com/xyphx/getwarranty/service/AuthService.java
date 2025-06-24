@@ -54,7 +54,7 @@ public class AuthService {
 
                 return new AuthResponse(
                                 jwtUtil.generateAccessToken(email),
-                                jwtUtil.generateRefreshToken(email) // optional: rotate refresh token
+                                jwtUtil.generateRefreshToken(email) 
                 );
         }
 }
