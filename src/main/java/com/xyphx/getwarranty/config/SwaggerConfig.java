@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SwaggerConfig {
-        @Bean
-        public OpenAPI getOpenApi() {
+    @Bean
+    OpenAPI getOpenApi() {
                 return new OpenAPI()
                                 .info(new Info()
                                                 .title("GET-Warranty API")

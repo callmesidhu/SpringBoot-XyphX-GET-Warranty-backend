@@ -3,11 +3,11 @@ package com.xyphx.getwarranty.service;
 import com.xyphx.getwarranty.model.User;
 import com.xyphx.getwarranty.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.*;
-import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -21,11 +21,9 @@ public class CustomUserDetailsService implements UserDetailsService {
                                 .orElseThrow(() -> new UsernameNotFoundException(
                                                 "User not found with email: " + email));
 
-                UserBuilder builder = org.springframework.security.core.userdetails.User
-                                .withUsername(appUser.getEmail());
-                builder.password(appUser.getPassword());
-                builder.authorities(new ArrayList<>());
-
-                return builder.build();
+                return new org.springframework.security.core.userdetails.User(
+                                appUser.getEmail(),
+                                appUser.getPassword(),
+                                List.of(new SimpleGrantedAuthority("ROLE_USER")));
         }
 }

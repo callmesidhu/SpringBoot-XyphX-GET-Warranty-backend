@@ -12,8 +12,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 @Configuration
 @EnableMongoAuditing
 public class MongoConfig {
-        @Bean
-        public MongoClient mongoClient() {
+    @Bean
+    MongoClient mongoClient() {
                 Dotenv dotenv = Dotenv.configure().load();
                 String uri = dotenv.get("MONGODB_URI");
 
@@ -28,8 +28,8 @@ public class MongoConfig {
                 }
         }
 
-        @Bean
-        public MongoTemplate mongoTemplate() {
+    @Bean
+    MongoTemplate mongoTemplate() {
                 return new MongoTemplate(mongoClient(), "getwarranty");
         }
 }

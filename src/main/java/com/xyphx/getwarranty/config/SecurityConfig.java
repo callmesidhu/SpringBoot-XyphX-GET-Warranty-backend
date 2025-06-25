@@ -20,21 +20,26 @@ public class SecurityConfig {
         }
 
         @Bean
-        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
                 http
+                                .cors() // ✅ Enable CORS support
+                                .and()
                                 .csrf(csrf -> csrf.disable())
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                                 .authorizeHttpRequests(auth -> auth
                                                 .requestMatchers(
+                                                                "/",
                                                                 "/swagger-ui.html",
                                                                 "/swagger-ui/**",
-                                                                "/v3/api-docs/**",
+                                                                "/api/v1/api-docs",
                                                                 "/api/v1/api-docs/**",
+                                                                "/v3/api-docs",
+                                                                "/v3/api-docs/**",
                                                                 "/webjars/**",
-                                                                "/api/auth/**")
-                                                .permitAll()
-                                                .requestMatchers("/api/profile/**").authenticated()
+                                                                "/api/auth/**" // ✅ login/signup public
+                                                ).permitAll()
+                                                .requestMatchers("/api/user/**").authenticated() // ✅ secure user routes
                                                 .anyRequest().authenticated())
                                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -42,7 +47,7 @@ public class SecurityConfig {
         }
 
         @Bean
-        public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
                 return config.getAuthenticationManager();
         }
 }

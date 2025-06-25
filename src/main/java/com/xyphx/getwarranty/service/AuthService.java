@@ -20,6 +20,7 @@ public class AuthService {
 
         public AuthResponse signup(SignupRequest req) {
                 if (userRepository.findByEmail(req.getEmail()).isPresent()) {
+                        System.out.println("Signup failed: user already exists with " + req.getEmail());
                         throw new RuntimeException("Email already exists!");
                 }
 
@@ -54,7 +55,6 @@ public class AuthService {
 
                 return new AuthResponse(
                                 jwtUtil.generateAccessToken(email),
-                                jwtUtil.generateRefreshToken(email) 
-                );
+                                jwtUtil.generateRefreshToken(email));
         }
 }
