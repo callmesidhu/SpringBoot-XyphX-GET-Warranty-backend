@@ -19,8 +19,8 @@ public class SecurityConfig {
                 this.jwtAuthFilter = jwtAuthFilter;
         }
 
-        @Bean
-        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
                 http
                                 .csrf(csrf -> csrf.disable())
                                 .sessionManagement(session -> session
@@ -30,8 +30,10 @@ public class SecurityConfig {
                                                                 "/",
                                                                 "/swagger-ui.html",
                                                                 "/swagger-ui/**",
-                                                                "/v3/api-docs/**",
+                                                                "/api/v1/api-docs",
                                                                 "/api/v1/api-docs/**",
+                                                                "/v3/api-docs",
+                                                                "/v3/api-docs/**",
                                                                 "/webjars/**",
                                                                 "/api/auth/**")
                                                 .permitAll()
@@ -42,8 +44,8 @@ public class SecurityConfig {
                 return http.build();
         }
 
-        @Bean
-        public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+    @Bean
+    AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
                 return config.getAuthenticationManager();
         }
 }
