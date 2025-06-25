@@ -19,8 +19,8 @@ public class SecurityConfig {
                 this.jwtAuthFilter = jwtAuthFilter;
         }
 
-    @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        @Bean
+        SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
                 http
                                 .csrf(csrf -> csrf.disable())
                                 .sessionManagement(session -> session
@@ -44,8 +44,8 @@ public class SecurityConfig {
                 return http.build();
         }
 
-    @Bean
-    AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        @Bean
+        AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
                 return config.getAuthenticationManager();
         }
 }
