@@ -22,6 +22,8 @@ public class SecurityConfig {
         @Bean
         SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
                 http
+                                .cors() // ✅ Enable CORS support
+                                .and()
                                 .csrf(csrf -> csrf.disable())
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -35,9 +37,9 @@ public class SecurityConfig {
                                                                 "/v3/api-docs",
                                                                 "/v3/api-docs/**",
                                                                 "/webjars/**",
-                                                                "/api/auth/**")
-                                                .permitAll()
-                                                .requestMatchers("/api/user/**").authenticated()
+                                                                "/api/auth/**" // ✅ login/signup public
+                                                ).permitAll()
+                                                .requestMatchers("/api/user/**").authenticated() // ✅ secure user routes
                                                 .anyRequest().authenticated())
                                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
