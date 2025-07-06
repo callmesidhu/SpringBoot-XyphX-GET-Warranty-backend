@@ -1,14 +1,13 @@
-# Start from an OpenJDK image
-FROM openjdk:17-jdk-slim
-
-# Set working directory
+# ---- Stage 1: Build the JAR ----
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
+COPY . .
+RUN ./mvnw clean package -DskipTests
 
-# Copy built jar from target/
-COPY target/getwarranty-0.0.1-SNAPSHOT.jar app.jar
+# ---- Stage 2: Run the JAR ----
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+COPY --from=build /app/target/getwarranty-0.0.1-SNAPSHOT.jar app.jar
 
-# Expose port (Render will set $PORT automatically)
 EXPOSE 8080
-
-# Run the app (Render sets PORT env, use it if available)
 ENTRYPOINT ["sh", "-c", "java -jar app.jar --server.port=${PORT:-8080}"]
