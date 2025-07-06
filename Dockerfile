@@ -2,6 +2,11 @@
 FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
 COPY . .
+
+# ✅ Add execute permission to mvnw
+RUN chmod +x mvnw
+
+# ✅ Then run the build
 RUN ./mvnw clean package -DskipTests
 
 # ---- Stage 2: Run the JAR ----
