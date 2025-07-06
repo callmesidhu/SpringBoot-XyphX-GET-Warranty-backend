@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Service {
-    private String id = UUID.randomUUID().toString(); // Unique ID for each service
+    private String id = UUID.randomUUID().toString();
     private String type;
     private String name;
     private String planType;

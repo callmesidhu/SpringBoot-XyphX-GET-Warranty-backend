@@ -39,7 +39,10 @@ public class SecurityConfig {
                                                                 "/webjars/**",
                                                                 "/api/auth/**" // ✅ login/signup public
                                                 ).permitAll()
-                                                .requestMatchers("/api/user/**").authenticated() // ✅ secure user routes
+                                                .requestMatchers("/api/user/**", "/api/services/**").authenticated() // ✅
+                                                                                                                    // secure
+                                                                                                                    // user
+                                                                                                                    // routes
                                                 .anyRequest().authenticated())
                                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
